@@ -2,6 +2,16 @@
   import client from "../../sanityClient";
   import BlockContent from "@movingbrands/svelte-portable-text";
   import serializers from "../../components/serializers";
+  import imageUrlBuilder from "@sanity/image-url";
+  // Get a pre-configured url-builder from your sanity client
+  const builder = imageUrlBuilder(client);
+
+  // Then we like to make a simple function like this that gives the
+  // builder an image and returns the builder for you to specify additional
+  // parameters:
+  function urlFor(source) {
+    return builder.image(source);
+  }
   export async function preload({ params }) {
     // the `slug` parameter is available because
     // this file is called [slug].html
@@ -22,9 +32,10 @@
     }`;
 
     const query = filter + projection;
+
     const post = await client
       .fetch(query, { slug })
-      .catch(err => this.error(500, err));
+      .catch((err) => this.error(500, err));
     return { post };
   }
 </script>
@@ -62,6 +73,16 @@
 </svelte:head>
 
 <h1>{post.title}</h1>
+<img
+  width="1200"
+  height="300"
+  src={urlFor(post.mainImage)
+    .width(1200)
+    .height(300)
+    .auto('format')
+    .quality('70')
+    .url()}
+  alt="" />
 
 <div class="content">
   <BlockContent blocks={post.body} {serializers} />

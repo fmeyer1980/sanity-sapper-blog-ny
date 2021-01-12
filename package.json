@@ -3,7 +3,7 @@
   "name": "sanity-sapper-blog",
   "version": "1.0.18",
   "scripts": {
-    "build": "lerna run build --parallel",
+    "build": "lerna bootstrap && lerna run build --parallel",
     "build-studio": "lerna bootstrap && (cd studio && npm run build)",
     "build-web": "lerna bootstrap && (cd web && npm run export)",
     "dev": "lerna run dev --parallel",

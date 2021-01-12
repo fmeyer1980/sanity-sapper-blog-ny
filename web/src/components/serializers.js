@@ -27,6 +27,7 @@ export default {
         url: urlFor(node)
           .width(800)
           .auto('format')
+          .quality('70')
           .url(),
         alt: node.alt,
       },
